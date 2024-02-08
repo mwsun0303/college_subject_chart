@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-{{ .Values.label }}
+  namespace: {{ .Values.namespace }}
+spec:
+  # replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.label }}-web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.label }}-web
+    spec:
+      containers:
+      - name: {{ .Values.label }}-container
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "{{ .Values.image.limits.memory }}"
+            cpu: "{{ .Values.image.limits.cpu }}"
