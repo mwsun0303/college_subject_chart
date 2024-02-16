@@ -9,7 +9,7 @@ spec:
     kind: Deployment
     name: {{ .Chart.Name }}-{{ .Values.label }}
   minReplicas: 3
-  maxReplicas: 10
+  maxReplicas: 7
   metrics:
   - type: Resource
     resource:
